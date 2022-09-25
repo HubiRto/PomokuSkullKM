@@ -1,5 +1,6 @@
 package pl.pomoku.pomokuczaszki.cmds;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +22,13 @@ public class SkullGuiCmd implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player p){
-            new SkullMenu(PomokuCzaszki.getPlayerMenuUtility(p)).open();
+            if(sender.hasPermission("czaszki.all") || sender.hasPermission("czaszki.gui")) {
+                new SkullMenu(PomokuCzaszki.getPlayerMenuUtility(p)).open();
+            }else {
+                sender.sendMessage(ChatColor.RED + "Nie masz uprawnien do tej komendy!");
+            }
+        }else {
+            sender.sendMessage(ChatColor.RED + "Tej komendy nie mozna wykonac w konsoli!");
         }
         return true;
     }
