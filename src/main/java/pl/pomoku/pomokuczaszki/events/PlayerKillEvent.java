@@ -3,6 +3,7 @@ package pl.pomoku.pomokuczaszki.events;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -30,27 +31,29 @@ public class PlayerKillEvent implements Listener {
                     Player killed = (Player) e.getEntity();
                     Player killer = e.getEntity().getKiller();
 
-                    if (KillsYml.get().getBoolean("kills." + killed.getUniqueId() + "." + "skull")) {
-                        EconomyResponse response = eco.depositPlayer(killer, 100);
-                        if(response.transactionSuccess()) {
-                            Api.setSkull(killed, false);
-                            for (Player p : plugin.getServer().getOnlinePlayers()) {
-                                p.sendMessage(ChatColor.GRAY + "Gracz " + ChatColor.GREEN + killer.getDisplayName() + ChatColor.GRAY + " zabil agresywnego gracza " + ChatColor.RED + killed.getDisplayName() + ChatColor.GREEN + " - nagroda 100$");
+                    if(!(killer.getGameMode() == GameMode.CREATIVE)) {
+
+                        if (KillsYml.get().getBoolean("kills." + killed.getUniqueId() + "." + "skull")) {
+                            EconomyResponse response = eco.depositPlayer(killer, 100);
+                            if (response.transactionSuccess()) {
+                                Api.setSkull(killed, false);
+                                for (Player p : plugin.getServer().getOnlinePlayers()) {
+                                    p.sendMessage(ChatColor.GRAY + "Gracz " + ChatColor.GREEN + killer.getDisplayName() + ChatColor.GRAY + " zabil agresywnego gracza " + ChatColor.RED + killed.getDisplayName() + ChatColor.GREEN + " - nagroda 100$");
+                                }
+                                killed.setPlayerListName(killed.getName());
                             }
-                            killed.setPlayerListName(killed.getName());
-                        }
-                    }else {
-                        EconomyResponse response = eco.withdrawPlayer(killer, 100);
-                        if(response.transactionSuccess()) {
-                            Api.setSkull(killed, true);
-                            for (Player p : plugin.getServer().getOnlinePlayers()) {
-                                p.sendMessage(ChatColor.GRAY + "Gracz " + ChatColor.RED + killer.getDisplayName() + ChatColor.GRAY + " zabil pokojowego gracza " + ChatColor.GREEN + killed.getDisplayName() + ChatColor.RED + " - kara 100$ i czaszka");
+                        } else {
+                            EconomyResponse response = eco.withdrawPlayer(killer, 100);
+                            if (response.transactionSuccess()) {
+                                Api.setSkull(killed, true);
+                                for (Player p : plugin.getServer().getOnlinePlayers()) {
+                                    p.sendMessage(ChatColor.GRAY + "Gracz " + ChatColor.RED + killer.getDisplayName() + ChatColor.GRAY + " zabil pokojowego gracza " + ChatColor.GREEN + killed.getDisplayName() + ChatColor.RED + " - kara 100$ i czaszka");
+                                }
+                                killer.sendTitle("☠", "", 0, 20 * 2, (int) (20 * 0.5));
+                                killer.setPlayerListName(killer.getName() + " ☠");
                             }
-                            killer.sendTitle("☠", "", 0, 20*2, (int) (20*0.5));
-                            killer.setPlayerListName(killer.getName() + " ☠");
                         }
                     }
-                    KillsYml.save();
                 }
             }
         }

@@ -6,3 +6,6 @@ authors: [ HubiRto ]
 description: Plugin na czaszki
 depend:
   - Vault
+commands:
+  czaszki:
+
