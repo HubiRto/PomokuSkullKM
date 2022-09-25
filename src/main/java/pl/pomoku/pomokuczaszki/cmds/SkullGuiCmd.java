@@ -9,10 +9,10 @@ import pl.pomoku.pomokuczaszki.menusystem.menu.SkullMenu;
 
 import java.util.Objects;
 
-public class TestKill implements CommandExecutor {
+public class SkullGuiCmd implements CommandExecutor {
     private final PomokuCzaszki plugin;
 
-    public TestKill(PomokuCzaszki plugin) {
+    public SkullGuiCmd(PomokuCzaszki plugin) {
         this.plugin = plugin;
         Objects.requireNonNull(plugin.getCommand("czaszki")).setExecutor(this);
     }

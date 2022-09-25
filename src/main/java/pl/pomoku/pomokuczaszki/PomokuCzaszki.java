@@ -4,7 +4,9 @@ import net.milkbowl.vault.economy.Economy;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import pl.pomoku.pomokuczaszki.cmds.TestKill;
+import pl.pomoku.pomokuczaszki.cmds.SkullGetSetHave;
+import pl.pomoku.pomokuczaszki.cmds.SkullGuiCmd;
+import pl.pomoku.pomokuczaszki.cmds.tabcompliter.SkullGetSetHaveCompliter;
 import pl.pomoku.pomokuczaszki.events.JoinEvent;
 import pl.pomoku.pomokuczaszki.events.MenuListener;
 import pl.pomoku.pomokuczaszki.events.PlayerKillEvent;
@@ -41,7 +43,10 @@ public final class PomokuCzaszki extends JavaPlugin {
         KillsYml.setup(this);
         KillsYml.save();
 
-        new TestKill(this);
+        new SkullGuiCmd(this);
+        new SkullGetSetHave(this);
+
+        new SkullGetSetHaveCompliter(this);
 
         getServer().getPluginManager().registerEvents(new PlayerKillEvent(this), this);
         getServer().getPluginManager().registerEvents(new JoinEvent(this), this);

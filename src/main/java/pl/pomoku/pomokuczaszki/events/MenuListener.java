@@ -9,6 +9,8 @@ import org.bukkit.inventory.InventoryHolder;
 import pl.pomoku.pomokuczaszki.PomokuCzaszki;
 import pl.pomoku.pomokuczaszki.menusystem.Menu;
 
+import java.util.Objects;
+
 public class MenuListener implements Listener {
     private final PomokuCzaszki plugin;
 
@@ -18,7 +20,7 @@ public class MenuListener implements Listener {
 
     @EventHandler
     public void onMenuClick(InventoryClickEvent e){
-        InventoryHolder holder = e.getClickedInventory().getHolder();
+        InventoryHolder holder = Objects.requireNonNull(e.getClickedInventory()).getHolder();
         if(holder instanceof Menu){
             e.setCancelled(true);
 
