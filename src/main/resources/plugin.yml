@@ -1,7 +1,7 @@
 name: PomokuCzaszki
 version: '${project.version}'
 main: pl.pomoku.pomokuczaszki.PomokuCzaszki
-api-version: 1.19
+api-version: 1.19.3
 authors: [ HubiRto ]
 description: Plugin na czaszki
 depend:
